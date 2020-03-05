@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Email, EqualTo
 
 
 class LoginForm(FlaskForm):
@@ -21,3 +21,4 @@ class Details(FlaskForm):
                                                 ('8', 8), ('9', 9), ('10', 10)])
     submit = SubmitField('Submit')
     # extra = SubmitField('Enter another Skill?')
+
