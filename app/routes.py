@@ -8,22 +8,6 @@ from app.forms import LoginForm, Details
 
 
 @app.route('/')
-@app.route('/index')
-@login_required
-def index():
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html', title='Home', posts=posts)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -42,16 +26,20 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
+@app.route('/index')
+@login_required
+def index():
+    return render_template('index.html')
+
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
+@app.route('/update_skill', methods=['GET', 'POST'])
+def update_skill():
     form = Details()
     if form.validate_on_submit():
         row = EmpDetails(emp_id=form.emp_id.data, skill=form.skills.data, experience=form.experience.data,
@@ -60,4 +48,4 @@ def register():
         db.session.commit()
         print(int(form.emp_rating.data))
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('update_skill.html', title='Register', form=form)
